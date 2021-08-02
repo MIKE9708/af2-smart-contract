@@ -1,0 +1,387 @@
+Addresses
+Setup
+=====
+Ganache
+-------
+1. Create a new workspace. Name it 3D-Marketplace.
+2. Leave Server settings as it is.
+3. In Accounts and Keys: Set default balance to be 10000, Set total account to be 20, Set autogenerate mnemonic to false, 
+   mnemonic to "coconut one thrive piece exact federal regret shop vague awake stuff awkward", and lock account to false.
+4. Leave Chain as it is.
+5. Set verbose logs to true.
+6. Save the workspace. Now due to mnemonics at step 3, you will see the same following 20 accounts and their private keys.
+   The next two lines is the keccak hash of the public key and signature of the hash using the private key. This will be 
+   used to authenticate the user.
+
+------------------------------------------------------------------
+
+0xF7EC2F4D490E052154605DF6b72515DE4D9E0a68
+3c3abfef2f6bd5e9cb6008d9d9dfa772c827f3bb0f93172f504f834c339c0fc1
+cd6500c6f187341ff9dc6a3a04cc7ed9da10e9477ccae0cbb85d057d0a4a0841
+"0x44c7f9a8f8f82fd8b092958e52f9d33450790291161c0524d74175d30477842f71dacd124b1419cb0eb3022f4da07606a8d78dfd36b05e615195ab9a5e1b583201"
+
+------------------------------------------------------------------
+
+0x0c312fE7fAE449d55DF3cF0215f30F6bABfa5f43
+df8ed3f24d443a6e15542c48aa2d4619e47e14e3ab245b3b116161179dafd3c0
+080c22ac3e02bec321afcd649dc6195b152240a63c06370fd8aff5a8a3f6f4ec
+"0xe557767e7d5a40ced5c7d62ca4a2f517f05d45e01e4a5fcde329f7f07e6779a0413e77699875be157e5646568a2e5d9214924a85fef9534820b1fa02e1c3ea2800"
+
+------------------------------------------------------------------
+
+0x887f9Fb254302f19f01424e6bfE82A07b8DB3577
+4656d22747882975d48f2d59d6155152d720f58783ccf77d33a33fc091b17e82
+3aca3dcdd3efb034d70841926c1307846d963bd1c047a4dfa9bc59f6fc907aed
+"0x4ca523ea2e1c2346968313994498307c2204a2ccc3a440af5e54d88a2f02dd9b12a956bb7f8229d19c1b49ad193b53ca3ddb9af992019ee78e72ca16210f3bd700"
+
+------------------------------------------------------------------
+
+0x02a6160133eC56ffCBc57f352d360725429Ac8FD
+b399e3871a80d96621e30dd1a13ce7465f69645b3ee5c840c6949199d0d7a5f0
+0a027a3ec2d499edf63955c132162ae928fdb4574543a88ef8baf7efab55050e
+"0x54df8b11d6668d496063386c2a08bde1068b9768a6684bf724804c3bca65fb2e4a4c49e11109e9815df3a806766e6671b07883fbab2d78685afb54ecccabf42900"
+
+------------------------------------------------------------------
+
+0x1c3b7d115d982051A2Cd3D2BF82C625F5008C1a9
+5c220d127d553bff767ec91594b3cd6f0508faa99559cf8d163a03d417f52a42
+983a000c15e30380d50d539d1beb662b6eca30b2010e98bb01472c4565649e18
+"0xbca80e1fece4af17b758c0188f11e9bdec141560e3f2da34c0822331b704ff7f5e81780f80b9c0bc6652ba90d5324c556efb5faa90495e4a63e5b3cfc0bc12e601"
+
+------------------------------------------------------------------
+
+0x6D107c0B9F639D12Af26679ff97F1346082a2E13
+a0ef7d1f5f8d5f4170bca58b62ec2503a5c8b628416921128b25c8bbe85dd93d
+be8fb8bbb3a04f1230054d05ab6740487d5c505f3c4388f9a8ba75a5b0a04f20
+"0x8272cc2f008026d9919f17b3919e52154db0b6810f5a54b052a44a3619af844000ba7417b616509bfe9d87e79df2847b860415c9ffe27c7e7e6c155bae7a8ada01"
+
+------------------------------------------------------------------
+
+0x1F10D26E3e2DbFC891899b2ad714a827316b2ad6
+4e26a4820d943a6b8815da9d24bf020e96eb588cb5ae2b70b8a5957c4f9ee1da
+737b54a9d1ecfb43e58bbf90e3feabe5ddc89da2c7abb2688933cfe04067e5d2
+"0x1d092ec8c312e66735c3480b7a715e852751b1fe81bd018a6b4b9af630d5866a447cd63199229230f9d60a6f97b87b95478e06d2295f9cedb21b680b8f17b2fd00"
+
+------------------------------------------------------------------
+
+0x203dD5af55c629DCA5b49ba70b9f6fEa72eDdF3C
+06cc8acdfade31dabe2c049eb826493715381a9c3a58d5e89badb853e2854f34
+38cd70ba55fbdababeac0e64c2247f967f803ef926e9c28fa5c7245147dacfef
+"0x239a7feb611f1f58b4d9cdc53cb88f6c601450ebbe3d129d570be851598529b0196b8fde4025319a62b4ceb49e32015f148025880704bec85b2af0a433310b8d01"
+
+------------------------------------------------------------------
+
+0x6bec3B80A7F652b4eD13624aD6B2cBa5ec23bad5
+f40f69427f0d462a2d477a754edb15ecdec26ba05f250533c311bac4fb99c5a2
+7a774a601550effc97afccf7ced76e356897c675d5e08e00630a6f95a6f546ae
+"0x177cac87de093d8ac5ee14ef48391bd7df3ed42309daf66a5909465e86c634e15ad143a38653f693d06897f835e605efa33b6b5fec81b71e0256edd279b318a000"
+
+------------------------------------------------------------------
+
+0x93A794F4EC88448D74B1fB97e3A72C877236A80d
+a80c660238b86b2386c7c8da439beb0d76eddce6f1080b06ef404cf51ab7047f
+f2acf167578946ac4a9adcc2512c1a846cb47cdeb5776a8ad812ffc7d94b09bf
+"0x934236ea4f7502ac0dc561a812aa6499eb905f723c8d18691d70d83c9002013117cf2b9a2060ca57ba18cc5db3896ae91290bf5c97db9dc4f622b3acdb962fdd00"
+
+------------------------------------------------------------------
+
+0x95103d3F962e95d3eEf3b3e3468A3E8DA7d31ce0
+f69846707479720df398c3b346f797a9a6f33892c5425f234e1ea3c8a1f72244
+8130b799da68601bc76450c77e2a244cf7d7b994a6736909a5d18956d271732e
+"0x52d3e1eea318593f4a27ca7ec9a1228d7a437bdf1ebd5584a08c6334c8215a722aaa305b7b053c42fb05ab497f1aa7118b738b64936eff1cfcc6bd70dfb60cf101"
+
+------------------------------------------------------------------
+
+0xc752FEdE193F82a60A602Ffbe6AFAe393e30506F
+a7a57da15ab0847e58e930e3427f47827f29a7e20d4169e01d415c9cae130bd0
+13cfc7dd5d33285694749e98b6fc305a7bc5fbab36619b710135514afb2f827b
+"0x46a9e4dfbe25c1a4b1be941056e50beea9c829feb37bf1d416dc65c62ace6e6a7a35a601de647e9b1cf409614a70dfbaefe588a7c80b47087132303a68bf0b1d00"
+
+------------------------------------------------------------------
+
+0x6623eAa427f6f8ccDD456E40E6913476C1fDDf49
+8ab8568f74aa9dadd2cc7b548ea66e2ea53ac38ec7e44a99bfc2f4dc70639f5c
+188a3df0c7ee0ef2c582a2188fe73d960d9c464451131eef20ddf642852aaab0
+"0x0cc57f37b5bbe2723d54a6a6029e767068cc239f92696ba6f2a6ac72e82c6d8a5c0cb638b99102b9bbbe202670189616ef5944c17758e420927e65376d96f03f00"
+
+------------------------------------------------------------------
+
+0x8AfcDB1D52ddcc912783c9D06D418758Cd944eEd
+7662de491f0fc6a7ac1486756bd81ea246be1de822cc0f4ba9ff23cce96347bc
+14e8ef79dad7390c6d3b4de65c0b0c4e36a159af40f5b5459e8eefa8207f3173
+"0x4623aff28d615b8fb1689a61be7d5e6868d9b60cba568486d1bfce3485eae97e08f55603091e19553ac13f74f301d70d6c4b81ffaae2d2f07b32740c34fe7c1000"
+
+------------------------------------------------------------------
+
+0x13BbD80160F3Bcd0B15704175b958248629d33ae
+ee49541b033aca4d0aaac44b8bc1c5a5eb08b668490357740e4a31490e9481e9
+7f8815fdd19d478380483f1935bf48a13cb2a769134b7d5d449e5e97ad01ddae
+"0x3b3e0234fd32bcf756e29830fd93e074f3795cc25fbadd08e30595569e06b5e61882569c2325982736cb86d06c92b87eee635c23d8bcb5b71eba9eee46451c4200"
+
+------------------------------------------------------------------
+
+0xFDCC050DCcd7c8F621213AD76001f3de0879adC1
+7963b7e1ebc10fe1b1e95eda24d8bd7fdf37e88b814f333b34c799b56499dc31
+0f2c818b3dc7145d7769efbbae5a7d20643228bc3cee90059bfab1226b8c2869
+"0xf21e326750d2b3cbefa65cf3654adf249c82308f13fa967dc7eafaa4e789565a18a8622feb449bed2064e8c9bb9b0f1e9139c9a7f2fd8c42c2af57a125c3459401"
+
+------------------------------------------------------------------
+
+0x9bD7f988A15D25972058A0a7E460cbb2113459Fc
+49b4566e6eee0218ebd6e3a9c70f28018f8927df2089992b9c2bc3848dfefe36
+747c330a75b9c5bf46c5b2d54b297eb3639a42ebe6493aa77e1d120f15c395a9
+"0x8e5ec76e23964c97da1f1ee4e1b41e6256d5df962c758618228bd7b377a5f68362080dc9469d9427599342558db4752d3eb6110cfbe277d1f1bd2aed8e5dde0900"
+
+------------------------------------------------------------------
+
+0xcC9F8CF7Cacb60F37FaEeFC5FE0D1ec643948b7e
+99365619af6564f16743c389b85e2ac67f00645253fcd3ca2b221a6db95497be
+5e56b8eb9f4d7d65fd288461cb06c243d0326bb1d26f0c4b1fa25e625678d862
+"0xe8a081f8824409de03fb061cb45119adbdc54649bc973b7db7660ab6f13ae3c02fde50f9f7a9146848fe0071e4f6a50ef1b686984207be5d9069f17d50908bce00"
+
+------------------------------------------------------------------
+
+0x6F289A8D1fBe5dE69969b90c7cd9410673d6fC57
+5099badc1710b0fdc7ca8816695f3eee6248707180e0676d4f7168f26ec5e129
+ccee74a6815e2db4f05643d51cc20c8d94e97a2c58187ea7e39d00a8df6c9f7e
+"0x1a9d882e7ecceecb66bda53d5db9643fd06cfa488f3b37f078bb0df5d7a3cce711619f6b5cb426970446f9bc4149a1d14d35dbc4a604a7fd34602c298920b07900"
+
+------------------------------------------------------------------
+
+0xEF75E31bf905fB68A226024eEBB939d894366A21
+98a264add2a3e7163f573bb4e4554b31e814ea78b60c552972a12535101aaa8e
+dacf213440687b957bfc33697cb6ba7e4f2fc1e50d514d85b07d68905d79c2f6
+"0xea263d20754fbcce2071b360120078c2d9f727310a3a4f1c1dc5095b71335f625c504781161709e4758a0fc2bff8a07bb6b69dfe859ff5d1b449dc89d7e9df7901"
+
+------------------------------------------------------------------
+==================================================================
+Steps to get the hash and the signature:
+==================================================================
+1. keccak256 via online tool https://emn178.github.io/online-tools/keccak_256.html (player address in this case 0xaf9ddaF35d3cB3b0bA765206fea134483EF65b03)
+"0x78563d8b800e2451d444132933f44409c21143e27753ffd4bbae66f0825e7de1"
+
+"0xf74fe95140c6b07b3e6e1d4c8f3c88139afb561f2ab26738cbf4ed31be519b64"
+
+2. Prepare a virtual machine with web3. 
+A prebuilt virtual machine has been downloaded from https://medium.com/coinmonks/configuring-ubuntu-and-macos-for-smart-contract-and-dapps-in-ethereum-e6ec329f1a0d.
+https://www.dropbox.com/s/ha3chvm8snip85w/Ubuntu%2016.04.4.ova?dl=0
+This will download a .ova file. Then in virtualbox, use file > import appliances > use the .ova file.
+Once the machine is booted, start Ganache.
+Then run geth attach http://localhost:7545
+
+3. Import the private key corresponding to address 0xaf9ddaF35d3cB3b0bA765206fea134483EF65b03 to the virtual machine web3.
+web3.personal.importRawKey("0xdf8ed3f24d443a6e15542c48aa2d4619e47e14e3ab245b3b116161179dafd3c0","")
+web3.personal.importRawKey("0x4656d22747882975d48f2d59d6155152d720f58783ccf77d33a33fc091b17e82","")
+web3.personal.importRawKey("0xb399e3871a80d96621e30dd1a13ce7465f69645b3ee5c840c6949199d0d7a5f0","")
+web3.personal.importRawKey("0x5c220d127d553bff767ec91594b3cd6f0508faa99559cf8d163a03d417f52a42","")
+web3.personal.importRawKey("0xa0ef7d1f5f8d5f4170bca58b62ec2503a5c8b628416921128b25c8bbe85dd93d","")
+web3.personal.importRawKey("0x4e26a4820d943a6b8815da9d24bf020e96eb588cb5ae2b70b8a5957c4f9ee1da","")
+web3.personal.importRawKey("0x06cc8acdfade31dabe2c049eb826493715381a9c3a58d5e89badb853e2854f34","")
+web3.personal.importRawKey("0xf40f69427f0d462a2d477a754edb15ecdec26ba05f250533c311bac4fb99c5a2","")
+web3.personal.importRawKey("0xa80c660238b86b2386c7c8da439beb0d76eddce6f1080b06ef404cf51ab7047f","")
+web3.personal.importRawKey("0xf69846707479720df398c3b346f797a9a6f33892c5425f234e1ea3c8a1f72244","")
+web3.personal.importRawKey("0xa7a57da15ab0847e58e930e3427f47827f29a7e20d4169e01d415c9cae130bd0","")
+web3.personal.importRawKey("0x8ab8568f74aa9dadd2cc7b548ea66e2ea53ac38ec7e44a99bfc2f4dc70639f5c","")
+web3.personal.importRawKey("0x7662de491f0fc6a7ac1486756bd81ea246be1de822cc0f4ba9ff23cce96347bc","")
+web3.personal.importRawKey("0xee49541b033aca4d0aaac44b8bc1c5a5eb08b668490357740e4a31490e9481e9","")
+web3.personal.importRawKey("0x7963b7e1ebc10fe1b1e95eda24d8bd7fdf37e88b814f333b34c799b56499dc31","")
+web3.personal.importRawKey("0x49b4566e6eee0218ebd6e3a9c70f28018f8927df2089992b9c2bc3848dfefe36","")
+web3.personal.importRawKey("0x99365619af6564f16743c389b85e2ac67f00645253fcd3ca2b221a6db95497be","")
+web3.personal.importRawKey("0x5099badc1710b0fdc7ca8816695f3eee6248707180e0676d4f7168f26ec5e129","")
+web3.personal.importRawKey("0x98a264add2a3e7163f573bb4e4554b31e814ea78b60c552972a12535101aaa8e","")
+
+web3.personal.importRawKey("0xa67bee5d6fb43acd42e307eb67547ab5006ad2fbb9567829e9b4b2ef3580acea","")
+
+4. Using the same address 0xaf9ddaF35d3cB3b0bA765206fea134483EF65b03 and the signature above, sign the transaction using a virtual machine using web3 setup.
+web3.eth.sign("0xF7EC2F4D490E052154605DF6b72515DE4D9E0a68", "0xcd6500c6f187341ff9dc6a3a04cc7ed9da10e9477ccae0cbb85d057d0a4a0841")
+web3.eth.sign("0x0c312fE7fAE449d55DF3cF0215f30F6bABfa5f43", "0x080c22ac3e02bec321afcd649dc6195b152240a63c06370fd8aff5a8a3f6f4ec")
+web3.eth.sign("0x887f9Fb254302f19f01424e6bfE82A07b8DB3577", "0x3aca3dcdd3efb034d70841926c1307846d963bd1c047a4dfa9bc59f6fc907aed")
+web3.eth.sign("0x02a6160133eC56ffCBc57f352d360725429Ac8FD", "0x0a027a3ec2d499edf63955c132162ae928fdb4574543a88ef8baf7efab55050e")
+web3.eth.sign("0x1c3b7d115d982051A2Cd3D2BF82C625F5008C1a9", "0x983a000c15e30380d50d539d1beb662b6eca30b2010e98bb01472c4565649e18")
+web3.eth.sign("0x6D107c0B9F639D12Af26679ff97F1346082a2E13", "0xbe8fb8bbb3a04f1230054d05ab6740487d5c505f3c4388f9a8ba75a5b0a04f20")
+web3.eth.sign("0x1F10D26E3e2DbFC891899b2ad714a827316b2ad6", "0x737b54a9d1ecfb43e58bbf90e3feabe5ddc89da2c7abb2688933cfe04067e5d2")
+web3.eth.sign("0x203dD5af55c629DCA5b49ba70b9f6fEa72eDdF3C", "0x38cd70ba55fbdababeac0e64c2247f967f803ef926e9c28fa5c7245147dacfef")
+web3.eth.sign("0x6bec3B80A7F652b4eD13624aD6B2cBa5ec23bad5", "0x7a774a601550effc97afccf7ced76e356897c675d5e08e00630a6f95a6f546ae")
+web3.eth.sign("0x93A794F4EC88448D74B1fB97e3A72C877236A80d", "0xf2acf167578946ac4a9adcc2512c1a846cb47cdeb5776a8ad812ffc7d94b09bf")
+web3.eth.sign("0x95103d3F962e95d3eEf3b3e3468A3E8DA7d31ce0", "0x8130b799da68601bc76450c77e2a244cf7d7b994a6736909a5d18956d271732e")
+web3.eth.sign("0xc752FEdE193F82a60A602Ffbe6AFAe393e30506F", "0x13cfc7dd5d33285694749e98b6fc305a7bc5fbab36619b710135514afb2f827b")
+web3.eth.sign("0x6623eAa427f6f8ccDD456E40E6913476C1fDDf49", "0x188a3df0c7ee0ef2c582a2188fe73d960d9c464451131eef20ddf642852aaab0")
+web3.eth.sign("0x8AfcDB1D52ddcc912783c9D06D418758Cd944eEd", "0x14e8ef79dad7390c6d3b4de65c0b0c4e36a159af40f5b5459e8eefa8207f3173")
+web3.eth.sign("0x13BbD80160F3Bcd0B15704175b958248629d33ae", "0x7f8815fdd19d478380483f1935bf48a13cb2a769134b7d5d449e5e97ad01ddae")
+web3.eth.sign("0xFDCC050DCcd7c8F621213AD76001f3de0879adC1", "0x0f2c818b3dc7145d7769efbbae5a7d20643228bc3cee90059bfab1226b8c2869")
+web3.eth.sign("0x9bD7f988A15D25972058A0a7E460cbb2113459Fc", "0x747c330a75b9c5bf46c5b2d54b297eb3639a42ebe6493aa77e1d120f15c395a9")
+web3.eth.sign("0xcC9F8CF7Cacb60F37FaEeFC5FE0D1ec643948b7e", "0x5e56b8eb9f4d7d65fd288461cb06c243d0326bb1d26f0c4b1fa25e625678d862")
+web3.eth.sign("0x6F289A8D1fBe5dE69969b90c7cd9410673d6fC57", "0xccee74a6815e2db4f05643d51cc20c8d94e97a2c58187ea7e39d00a8df6c9f7e")
+web3.eth.sign("0xEF75E31bf905fB68A226024eEBB939d894366A21", "0xdacf213440687b957bfc33697cb6ba7e4f2fc1e50d514d85b07d68905d79c2f6")
+
+acc: 0xc0a8e4d217eb85b812aeb1226fab6f588943c2c2
+hash: 0x4248a403e869f049411658dc0dafe7dd50348e0921d2e5c1bd28054e95ba4749
+web3.eth.sign("0xc0a8e4d217eb85b812aeb1226fab6f588943c2c2", "0x4248a403e869f049411658dc0dafe7dd50348e0921d2e5c1bd28054e95ba4749")
+"0x3206a85a5329a0409bf470387fd36a4d1df98ba82413f64505500df72611369b643df024fbc091324137dd69ca847cf3a7b49c0757b80e2066ccf27df40c8a9000"
+
+
+
+
+
+
+===================================================================
+
+
+
+Step 1: Perform a hash on the file and initiate announce function.
+Announce parameters using the account 0xF7EC2F4D490E052154605DF6b72515DE4D9E0a68 (vendor) 
+filehash: 0xb4f13914e02bc9e579c95f3eb46bd9c914d936f4dfc4afce2783129b3793255e
+timestamp: 1603308104 
+expiry: 1603309104 
+commitment (should be in wei): 10000000000000000000 (10 ether)
+manager: 0x0c312fE7fAE449d55DF3cF0215f30F6bABfa5f43
+
+
+Step 2: Add the following players.
+------------------------------------------------------------------
+0x3aca3dcdd3efb034d70841926c1307846d963bd1c047a4dfa9bc59f6fc907aed
+0x4ca523ea2e1c2346968313994498307c2204a2ccc3a440af5e54d88a2f02dd9b12a956bb7f8229d19c1b49ad193b53ca3ddb9af992019ee78e72ca16210f3bd700
+------------------------------------------------------------------
+0x0a027a3ec2d499edf63955c132162ae928fdb4574543a88ef8baf7efab55050e
+0x54df8b11d6668d496063386c2a08bde1068b9768a6684bf724804c3bca65fb2e4a4c49e11109e9815df3a806766e6671b07883fbab2d78685afb54ecccabf42900
+------------------------------------------------------------------
+0x983a000c15e30380d50d539d1beb662b6eca30b2010e98bb01472c4565649e18
+0xbca80e1fece4af17b758c0188f11e9bdec141560e3f2da34c0822331b704ff7f5e81780f80b9c0bc6652ba90d5324c556efb5faa90495e4a63e5b3cfc0bc12e601
+------------------------------------------------------------------
+0xbe8fb8bbb3a04f1230054d05ab6740487d5c505f3c4388f9a8ba75a5b0a04f20
+0x8272cc2f008026d9919f17b3919e52154db0b6810f5a54b052a44a3619af844000ba7417b616509bfe9d87e79df2847b860415c9ffe27c7e7e6c155bae7a8ada01
+------------------------------------------------------------------
+0x737b54a9d1ecfb43e58bbf90e3feabe5ddc89da2c7abb2688933cfe04067e5d2
+0x1d092ec8c312e66735c3480b7a715e852751b1fe81bd018a6b4b9af630d5866a447cd63199229230f9d60a6f97b87b95478e06d2295f9cedb21b680b8f17b2fd00
+------------------------------------------------------------------
+0x38cd70ba55fbdababeac0e64c2247f967f803ef926e9c28fa5c7245147dacfef
+0x239a7feb611f1f58b4d9cdc53cb88f6c601450ebbe3d129d570be851598529b0196b8fde4025319a62b4ceb49e32015f148025880704bec85b2af0a433310b8d01
+------------------------------------------------------------------
+0x7a774a601550effc97afccf7ced76e356897c675d5e08e00630a6f95a6f546ae
+0x177cac87de093d8ac5ee14ef48391bd7df3ed42309daf66a5909465e86c634e15ad143a38653f693d06897f835e605efa33b6b5fec81b71e0256edd279b318a000
+------------------------------------------------------------------
+0xf2acf167578946ac4a9adcc2512c1a846cb47cdeb5776a8ad812ffc7d94b09bf
+0x934236ea4f7502ac0dc561a812aa6499eb905f723c8d18691d70d83c9002013117cf2b9a2060ca57ba18cc5db3896ae91290bf5c97db9dc4f622b3acdb962fdd00
+------------------------------------------------------------------
+0x8130b799da68601bc76450c77e2a244cf7d7b994a6736909a5d18956d271732e
+0x52d3e1eea318593f4a27ca7ec9a1228d7a437bdf1ebd5584a08c6334c8215a722aaa305b7b053c42fb05ab497f1aa7118b738b64936eff1cfcc6bd70dfb60cf101
+------------------------------------------------------------------
+0x13cfc7dd5d33285694749e98b6fc305a7bc5fbab36619b710135514afb2f827b
+0x46a9e4dfbe25c1a4b1be941056e50beea9c829feb37bf1d416dc65c62ace6e6a7a35a601de647e9b1cf409614a70dfbaefe588a7c80b47087132303a68bf0b1d00
+------------------------------------------------------------------
+0x188a3df0c7ee0ef2c582a2188fe73d960d9c464451131eef20ddf642852aaab0
+0x0cc57f37b5bbe2723d54a6a6029e767068cc239f92696ba6f2a6ac72e82c6d8a5c0cb638b99102b9bbbe202670189616ef5944c17758e420927e65376d96f03f00
+------------------------------------------------------------------
+
+
+Step 3: The player interested in taking part in voting, registers with the register function. Initiate the register function.
+Register parameters
+------------------------------------------------------------------
+0x3aca3dcdd3efb034d70841926c1307846d963bd1c047a4dfa9bc59f6fc907aed
+0x4ca523ea2e1c2346968313994498307c2204a2ccc3a440af5e54d88a2f02dd9b12a956bb7f8229d19c1b49ad193b53ca3ddb9af992019ee78e72ca16210f3bd700
+designno: 0
+commitment (should be in wei): 2000000000000000000 (2 ether)
+------------------------------------------------------------------
+0x0a027a3ec2d499edf63955c132162ae928fdb4574543a88ef8baf7efab55050e
+0x54df8b11d6668d496063386c2a08bde1068b9768a6684bf724804c3bca65fb2e4a4c49e11109e9815df3a806766e6671b07883fbab2d78685afb54ecccabf42900
+designno: 0
+commitment (should be in wei): 2000000000000000000 (2 ether)
+------------------------------------------------------------------
+0x983a000c15e30380d50d539d1beb662b6eca30b2010e98bb01472c4565649e18
+0xbca80e1fece4af17b758c0188f11e9bdec141560e3f2da34c0822331b704ff7f5e81780f80b9c0bc6652ba90d5324c556efb5faa90495e4a63e5b3cfc0bc12e601
+designno: 0
+commitment (should be in wei): 2000000000000000000 (2 ether)
+------------------------------------------------------------------
+0xbe8fb8bbb3a04f1230054d05ab6740487d5c505f3c4388f9a8ba75a5b0a04f20
+0x8272cc2f008026d9919f17b3919e52154db0b6810f5a54b052a44a3619af844000ba7417b616509bfe9d87e79df2847b860415c9ffe27c7e7e6c155bae7a8ada01
+designno: 0
+commitment (should be in wei): 2000000000000000000 (2 ether)
+------------------------------------------------------------------
+0x737b54a9d1ecfb43e58bbf90e3feabe5ddc89da2c7abb2688933cfe04067e5d2
+0x1d092ec8c312e66735c3480b7a715e852751b1fe81bd018a6b4b9af630d5866a447cd63199229230f9d60a6f97b87b95478e06d2295f9cedb21b680b8f17b2fd00
+designno: 0
+commitment (should be in wei): 2000000000000000000 (2 ether)
+------------------------------------------------------------------
+0x38cd70ba55fbdababeac0e64c2247f967f803ef926e9c28fa5c7245147dacfef
+0x239a7feb611f1f58b4d9cdc53cb88f6c601450ebbe3d129d570be851598529b0196b8fde4025319a62b4ceb49e32015f148025880704bec85b2af0a433310b8d01
+designno: 0
+commitment (should be in wei): 2000000000000000000 (2 ether)
+------------------------------------------------------------------
+This should fail.
+------------------------------------------------------------------
+0x7a774a601550effc97afccf7ced76e356897c675d5e08e00630a6f95a6f546ae
+0x177cac87de093d8ac5ee14ef48391bd7df3ed42309daf66a5909465e86c634e15ad143a38653f693d06897f835e605efa33b6b5fec81b71e0256edd279b318a000
+designno: 0
+commitment (should be in wei): 2000000000000000000 (2 ether)
+
+Step4: Use the manager account to set the file received to true.
+0x887f9Fb254302f19f01424e6bfE82A07b8DB3577
+0x02a6160133eC56ffCBc57f352d360725429Ac8FD
+0x1c3b7d115d982051A2Cd3D2BF82C625F5008C1a9
+0x6D107c0B9F639D12Af26679ff97F1346082a2E13
+
+
+
+To get the private key from the keystore file
+Install web3 cli
+curl -LSs https://raw.githubusercontent.com/gochain/web3/master/install.sh | sh
+
+web3 account extract --keyfile ./keys/UTC--2019-05-05T20-07-38.958128475Z--c0a8e4d217eb85b812aeb1226fab6f588943c2c2 --password "password"
+Private key: 0xa67bee5d6fb43acd42e307eb67547ab5006ad2fbb9567829e9b4b2ef3580acea
+Public address: 0xc0A8e4D217eB85b812aeb1226fAb6F588943C2C2
+
+
+4.9999
+
+curl https://ropsten.infura.io/v3/a63b15778812461180183fb54c03860c \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"jsonrpc":"2.0","method":"eth_call","params": [{"from": "0xBCe3A6eEA607B5681A7bb0ec0f379707A2FF6401","to": "0xc0A8e4D217eB85b812aeb1226fAb6F588943C2C2","gas": "0x76c0","gasPrice": "0x9184e72a000","value": "0x9184e72a"}, "latest"],"id":1}'
+    
+web3.personal.importRawKey("eec7b03e4e1a6445ee78aa7efeb9e28a7e0393a03ff000e067e0cf0ddb7a26f0", "");
+web3.personal.importRawKey("0aa327e99f7d5077379248f52546ec9d8049c72188504f56b18aa530ef653cb6", "");
+web3.personal.importRawKey("1780a99343b2cb3e7b613e183b5dbfbbf312f585753b501f01413d4d3fed7e81", "");
+
+
+To collect the Ropsten ethers (same can be used for Rinkeby/Gorli):
+1. Create the following accounts on metamask:
+"0xBCe3A6eEA607B5681A7bb0ec0f379707A2FF6401" 
+"0x87286e925b49c1989f83b0D8966ea78034501912" 
+"0x0a0EF1288Bd014eBcE2772990e41D2a6a0479178" 
+"0x6B4c26A9924353e10af6CD4452425AFa623A65f8"
+using the private keys:
+"eec7b03e4e1a6445ee78aa7efeb9e28a7e0393a03ff000e067e0cf0ddb7a26f0"
+"0aa327e99f7d5077379248f52546ec9d8049c72188504f56b18aa530ef653cb6"
+"1780a99343b2cb3e7b613e183b5dbfbbf312f585753b501f01413d4d3fed7e81"
+"a67bee5d6fb43acd42e307eb67547ab5006ad2fbb9567829e9b4b2ef3580acea"
+
+2. Once imported, select each account in metamask and go to the following website:
+https://faucet.metamask.io/
+Click green button "request 1 ether from faucet" 4 times to get 4 ethers into each account.
+
+3. Save the following code in a file test.js
+const Web3 = require("web3");
+const ethNetwork = 'https://ropsten.infura.io/v3/a63b15778812461180183fb54c03860c';
+const web3 = new Web3(new Web3.providers.HttpProvider(ethNetwork));
+
+// Initiate the transfer
+const keystores = [{"address":"bce3a6eea607b5681a7bb0ec0f379707a2ff6401","crypto":{"cipher":"aes-128-ctr","ciphertext":"3480e8f25b3ca7f6bd9ffa5add29becbcc755850cb715d5fa66566873795db7b","cipherparams":{"iv":"de26c7eef8cd9957059bd93fe45c92a6"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"4149409a2ebd79846d4ea8554b263f8e10ca360d3ca101f81595d9d37c73e3a4"},"mac":"ea53ecffbed50f034fb6051a3a316eca2fa7df26f76b6bd46d16b81941946ade"},"id":"1c1d889e-80a9-42bc-9078-645a9d00da94","version":3}, {"address":"87286e925b49c1989f83b0d8966ea78034501912","crypto":{"cipher":"aes-128-ctr","ciphertext":"c69bed03e0707a7182ee7edfa85d17f9aa8fb9e4d70e14042753d4f6f9223002","cipherparams":{"iv":"dad03fa66db7a4df9c0c446de3b52b66"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"378ca358dccac308f5094e6c59a25ed738ca27a3d38d0f9bf52c98f6419b866e"},"mac":"e25eadcd94125e6b2e0c2fb83b78dfee77ba75b62c87f4f5c7365a95aaf826f7"},"id":"b25f5afa-b4df-45cb-a6be-1cd1bcd6c9ee","version":3}, {"address":"0a0ef1288bd014ebce2772990e41d2a6a0479178","crypto":{"cipher":"aes-128-ctr","ciphertext":"2f127d1b63ec7eafe13a5e9ec07533a2ae6f5d2af1c219cbd3b4d8aac9cd2edd","cipherparams":{"iv":"efd4520d8c25758bf508e1882032936b"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"d7b4a4253377bfa9bc769f7cf16c1efbd40d09ced3572f4792676d4bc0e533d5"},"mac":"0335be2cddd72128569afb24edcbaf1b5ac3497b80574040170ef97057d416e0"},"id":"885617fc-34ee-4fef-a435-2419b737ff3c","version":3}, {"address":"6b4c26a9924353e10af6cd4452425afa623a65f8","crypto":{"cipher":"aes-128-ctr","ciphertext":"fa6327e62aa632721655568eeb897a5fb7f9b8675c9e8e846b57dddb5861dc1b","cipherparams":{"iv":"98bd73f42df4cdb0d8fa1dcea51facfd"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"6de2b080299a5727fda4ea93cc7ec80c88ca65226c7f61b450cd6fa8ca2976db"},"mac":"206c61f76527b192c7a50febc54ef605b8f083397d45ceed0cc6e64d91b51ecf"},"id":"e01e9fe8-a924-4390-83f0-0d36c1f4e517","version":3}];
+const accounts = ["0xBCe3A6eEA607B5681A7bb0ec0f379707A2FF6401", "0x87286e925b49c1989f83b0D8966ea78034501912", "0x0a0EF1288Bd014eBcE2772990e41D2a6a0479178", "0x6B4c26A9924353e10af6CD4452425AFa623A65f8"];
+
+for (i=0; i<4; i++) {
+    const decryptedAccount = web3.eth.accounts.decrypt(keystores[i], '');
+    const rawTransaction = {
+      "from": accounts[i],
+      "to": "0xc0A8e4D217eB85b812aeb1226fAb6F588943C2C2",
+      "value": web3.utils.toHex(web3.utils.toWei("3.9999", "ether")),
+      "gas": 21000,
+      "chainId": 3
+    };
+
+    decryptedAccount.signTransaction(rawTransaction)
+      .then(signedTx => web3.eth.sendSignedTransaction(signedTx.rawTransaction))
+      .then(receipt => console.log("Transaction receipt: ", receipt))
+      .catch(err => console.error(err));
+}
+
+4. node test.js
