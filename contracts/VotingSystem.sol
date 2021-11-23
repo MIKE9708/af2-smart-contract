@@ -1,3 +1,7 @@
+pragma solidity >=0.4.22 <0.9.0;
+pragma experimental ABIEncoderV2;
+
+/*
 # coding=utf-8
 ############################################################################################
 ##
@@ -16,10 +20,9 @@
 # limitations under the License.
 ##
 ############################################################################################ 
+*/
 
-
-
-/**
+/*
  * @file marketplace.sol
  * @author Nachiket Tapas <ntapas@unime.it>
  * @date created 01 Jun 2020
@@ -27,10 +30,8 @@
  * @SPDX-License-Identifier: UNLICENSED
  */
 
-pragma solidity ^0.7.0;
-pragma experimental ABIEncoderV2;
 
-contract designVoting {
+contract VotingSystem {
     // The status tells the state of the voting on the design
     // 0: voting
     // 1: finished
