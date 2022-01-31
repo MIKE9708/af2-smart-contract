@@ -35,6 +35,7 @@ contract VotingSystem {
     // The status tells the state of the voting on the design
     // 0: voting
     // 1: finished
+    uint256 ab=0;
     struct designState
     {
         bytes32 filehash;
@@ -47,7 +48,11 @@ contract VotingSystem {
         uint256 taur;
         uint256 deltaExp;
         uint256 deltaReveal;
-        int result;    
+        int result;   
+        //////////
+        uint256 beginOfphase;
+        uint256 phaseState;
+        //0 for phase1 1 for phase2 
     }
 
     //The vote is considered as follows
@@ -73,6 +78,8 @@ contract VotingSystem {
         uint256 endTimestamp;
         bytes32 printingdataHash;
         bytes32 designHash;
+
+        //uint256 design_number;
 
     }
    
@@ -112,6 +119,8 @@ contract VotingSystem {
     mapping (address => playerState) private players;
     mapping (address => uint) private isPlayer;
     address[] private playerAddresses;
+    //check if a design was printed
+    //mapping (playerState.designes=>uint256) printed;
    
     //Printer details indexed by printer address
     mapping (address => printerDetails) private printers;
@@ -124,6 +133,8 @@ contract VotingSystem {
 
     //Printer player mapping
     mapping (address => address[]) private userPrinters;
+
+
     
     //Notifications for successful completion of events
     event newDesignAvailable(bytes32 file_hash, uint256 design_number, address creator);
@@ -139,6 +150,18 @@ contract VotingSystem {
     event proofAdded( uint256 design_number, address player_address, address printer_address);
     
     event tempOutput(address _output);//, uint256 timestamp, uint256 expiry, uint256 balance);
+///////////////////////////////////////////////////////////
+    event phase2Begin(uint256 design_number,address vendor,uint256 time);
+    event playerVotedPhase1(uint256 design,address player);
+    event playerVotedPhase2(uint256 design,address player);
+///////////////////////////////////////////////////////////
+
+function prova(bytes32 prova1)pure public returns(bytes32) {
+    bytes32 gianni;
+    gianni = prova1;
+    return gianni;
+}
+
 
     //The commitment is send via the value field in the remix. If the sent value matches the commitment parameter,
     //the contract announces the availability of new design for verification.
@@ -162,7 +185,10 @@ contract VotingSystem {
        
         //Creation timestamp received from the js script
         designes[j].timestamp = _timestamp;
-       
+        //////////////////////////////////
+        designes[j].beginOfphase=_timestamp;
+        designes[j].phaseState=0;
+        ////////////////////////////////
         //Commitment
         designes[j].balance = _commitment;
        
@@ -226,11 +252,12 @@ contract VotingSystem {
    
     //Function to add players to the system. This does not mean the player is registering to vote.
     //function addPlayer(bytes32 _hashMsg, bytes memory _signature) public {
+    //argument for add player : bytes32 _hashMsg, bytes memory _signature
     function addPlayer(bytes32 _hashMsg, bytes memory _signature) public {
         //Check for identity of the user registering
-        (uint8 _v, bytes32 _r, bytes32 _s) = splitSignature(_signature);
-        bytes32 prefixedHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _hashMsg));
-        require(ecrecover(prefixedHash, _v, _r, _s) == msg.sender, "The registration identity verification failed.");
+       // (uint8 _v, bytes32 _r, bytes32 _s) = splitSignature(_signature);
+       // bytes32 prefixedHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _hashMsg));
+        //require(ecrecover(prefixedHash, _v, _r, _s) == msg.sender, "The registration identity verification failed.");
         
         //Check for existing player
         require( isPlayer [ msg.sender ] == 0, "Player already added to the system.");
@@ -254,6 +281,8 @@ contract VotingSystem {
     function getNumPlayers() public view returns (uint256) {
         return playerAddresses.length;
     }
+
+   
     
     //Reader function to get player's addresses
     function getPlayerAddresses() public view returns (address[] memory) {
@@ -342,7 +371,46 @@ contract VotingSystem {
         //An event is emitted after successful
         emit playerDesignReceived(_designNo, _playerAddress);
     }
-   
+
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //phase1 voting stage 
+    function votingPhase1(uint256 _designNo,uint256 timestamp,int256 vote)public{
+            //check for time-expiry and registration then make a vote
+            require(players[msg.sender].received[_designNo] == true, "The player can commit only when manager confirms design exchange.");
+            require(checkPlayers[_designNo][msg.sender]==0,"The is have not registered to the design");
+            require(timestamp <= designes[_designNo].timestamp + designes[_designNo].deltaExp, "The player cannot vote after expiry.");
+            players[msg.sender].votes[_designNo]=vote;
+            emit playerVotedPhase1(_designNo,msg.sender);
+
+    }
+
+    function startPhase2(uint _designNo,uint256 timestamp)public{
+            
+            require(designes[_designNo].vendor == msg.sender, "Unable to execute operation.");
+            require(designes[_designNo].result==1,"The design has been considered not valid");
+            require(timestamp <= designes[_designNo].beginOfphase + designes[_designNo].deltaExp, "The first voting phase is still not finished.");
+            
+            designes[_designNo].phaseState=1;
+            designes[_designNo].beginOfphase=timestamp;
+            emit phase2Begin(_designNo,msg.sender,timestamp);
+
+
+    }
+
+    function votingPhase2(uint256 _designNo,uint256 timestamp,int256 vote)public{
+
+        require(designes[_designNo].phaseState==1,"The first phase is still on going. ");
+        require(timestamp <= designes[_designNo].beginOfphase + designes[_designNo].deltaExp, "The first voting phase is still not finished.");
+        //Need to implement a check that the design was actually printed
+        players[msg.sender].votes[_designNo]=vote;
+        emit playerVotedPhase2(_designNo,msg.sender);
+
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+
     function commit(uint256 _designNo, bytes32 _cryptoCommitment, uint256 _timestamp)
         public
     {
@@ -558,6 +626,7 @@ contract VotingSystem {
 
         printersWork[_printerAddress].endTimestamp=endTimestamp;
         printersWork[_printerAddress].printingdataHash=printingdataHash;
+        //printersWork[printerAddresses].design_number=_designNo
 
     }
 
