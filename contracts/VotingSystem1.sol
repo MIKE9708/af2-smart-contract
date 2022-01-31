@@ -27,18 +27,25 @@
  * @SPDX-License-Identifier: UNLICENSED
  */
 //TODO FARE LA CLAIM PER LE PERSONE CHE HANNO UN BALANCE POSITIVO
-import { AntoTokenSale } from "./AntoTokenSale.sol";
-import { TestToken } from "./TestToken.sol";
-pragma solidity ^0.8.7;
+//import { AntoTokenSale } from "./AntoTokenSale.sol";
+//import { TestToken } from "./TestToken.sol";
+pragma solidity >=0.4.22 <0.9.0;
 pragma experimental ABIEncoderV2;
 
-contract designVoting{
+contract designVoting1{
 
-    TestToken public ContractToken;
-    AntoTokenSale public SaleContract;
+    //TestToken public ContractToken;
+    //AntoTokenSale public SaleContract;
     // The status tells the state of the voting on the design
     // 0: voting
     // 1: finished
+
+//  New variable for identify the voting stage and
+//  if the user has revealed or not the vote
+    enum votingState{none,first,second}
+    enum revealVote{noReveal,reveal}
+   
+
     struct designState
     {
         bytes32 filehash;
@@ -46,25 +53,49 @@ contract designVoting{
         uint256 timestamp;
         uint256 balance;
         address manager;
-        uint256 status;
+        uint256 status;//to be removed
+        uint256 status1;
+        uint256 status2;
         uint256 taup;
         uint256 taur;
         uint256 deltaExp;
         uint256 deltaReveal;
         int result;
+        votingState phase;
     }
+
+
+    
 
     //The vote is considered as follows
     // 0 : no vote. maybe due to time expired
     // -1 : invalid design
     // 1 : valid design
 
+
+
+    //the struct used for the vote that every user will make
+    //for a specific design
+    struct votingStage{
+        //private
+        int votingStage1;
+        int  votingStage2;
+        //private
+        votingState phase;
+        revealVote reveal_1;
+        revealVote reveal_2;
+
+
+    }
+
     struct playerState
     {
         int256 reputation;
         uint256 weight;
         mapping ( uint256 => bytes32 ) commitments;
-        mapping ( uint256 => int ) votes;
+        //mapping ( uint256 =>int ) votes;
+        //the associative array designNo voting struct
+        mapping ( uint256 =>votingStage) votes1;
 
 
 
@@ -154,17 +185,33 @@ contract designVoting{
     event playerCommitted(uint256 design_number, address player_address);
     event playerRevealed(uint256 design_number, address player_address);
     event votingResult(int result);
+    event phase2Begin(uint256 design_number,address vendor,uint256 time);
 
     event newPrinterAddition(address printer, bytes32 name);
     event proofAdded( uint256 design_number, address player_address, address printer_address);
 
     event tempOutput(address _output);//, uint256 timestamp, uint256 expiry, uint256 balance);
 
+
+    function prova(bytes32 prova1)pure public returns(bytes32) {
+        bytes32 gianni;
+        gianni = prova1;
+        return gianni;
+    }
+
+
+
+
+
+
     //The commitment is send via the value field in the remix. If the sent value matches the commitment parameter,
     //the contract announces the availability of new design for verification.
-    function announce(bytes32 _fileHash, uint256 _timestamp, uint256 _commitment, /*address _manager*/ uint256 _taur, uint256 _taup, uint256 _deltaExp, uint256 _deltaReveal)
+    function announce(bytes32 _fileHash, uint256 _timestamp, uint256 _commitment, uint256 _taur, uint256 _taup /*uint256 _deltaExp, uint256 _deltaReveal*/)
         public payable
     {
+
+
+        require(isPlayer[msg.sender]==1,"Operation denied");
         //Check for positive commitment
         require(_commitment > 0, "The commitment should be more than 0.");
 
@@ -190,6 +237,9 @@ contract designVoting{
         //Set a manager
         //designes[j].manager = _manager;
 
+        //Set the begining of the voting phase
+        designes[j].phase=votingState.first;
+
         //Set result to zero
         designes[j].result = 0;
 
@@ -208,7 +258,7 @@ contract designVoting{
         }
 
         //Setting the value for expiry
-        if (_deltaExp == 0) {
+       /* if (_deltaExp == 0) {
             designes[j].deltaExp = 600;
         } else {
             designes[j].deltaExp = _deltaExp;
@@ -219,11 +269,14 @@ contract designVoting{
             designes[j].deltaReveal = 600;
         } else {
             designes[j].deltaReveal = _deltaReveal;
-        }
+        }*/
+        designes[j].deltaExp = 20000;
+        //designes[j].deltaReveal = 600;
 
         //Set the status to be created
         designes[j].status = 0;
-
+        designes[j].status1 = 0;
+        designes[j].status2 = 0;
         //Incrementing the design index
         numDesignes = numDesignes + 1;
 
@@ -231,7 +284,7 @@ contract designVoting{
         _design.committment = _commitment;
 
 
-        ContractToken.transferFrom(msg.sender, address(SaleContract), _commitment);
+        //ContractToken.transferFrom(msg.sender, address(SaleContract), _commitment);
         //Emitting notification for new design creation.
         //Verifiers receiving the notification can participate in the process
         //Filehash to ensure file integrity
@@ -252,11 +305,11 @@ contract designVoting{
 
     //Function to add players to the system. This does not mean the player is registering to vote.
     //function addPlayer(bytes32 _hashMsg, bytes memory _signature) public {
-    function addPlayer(bytes32 _hashMsg, bytes memory _signature) public {
+    function addPlayer() public {
         //Check for identity of the user registering
-        (uint8 _v, bytes32 _r, bytes32 _s) = splitSignature(_signature);
-        bytes32 prefixedHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _hashMsg));
-        require(ecrecover(prefixedHash, _v, _r, _s) == msg.sender, "The registration identity verification failed.");
+        //(uint8 _v, bytes32 _r, bytes32 _s) = splitSignature(_signature);
+        //bytes32 prefixedHash = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _hashMsg));
+        //require(ecrecover(prefixedHash, _v, _r, _s) == msg.sender, "The registration identity verification failed.");
 
         //Check for existing player
         require( isPlayer [ msg.sender ] == 0, "Player already added to the system.");
@@ -298,8 +351,11 @@ contract designVoting{
     }
 
     //Get vote corresponding to design number and player
-    function getPlayerVote(address _playerAddress, uint256 _designNo) public view returns ( int ) {
-        return ( players[_playerAddress].votes[_designNo] );
+    function getPlayerVotePhase1(address _playerAddress, uint256 _designNo) public view returns ( int ) {
+        return ( players[_playerAddress].votes1[_designNo].votingStage1 );
+    }
+    function getPlayerVotePhase2(address _playerAddress, uint256 _designNo) public view returns ( int ) {
+        return ( players[_playerAddress].votes1[_designNo].votingStage2 );
     }
 
     //Check file received status corresponding to design number and player
@@ -308,17 +364,17 @@ contract designVoting{
     }
 
     //This function can be considered as expression of interest to take part in the voting and not to be confused with player registration to the system.
-    function register(bytes32 _hashMsg, bytes memory _signature, uint256 _designNo, uint256 _commitment)
+    function register(/*bytes32 _hashMsg, bytes memory _signature,*/ uint256 _designNo, uint256 _commitment)
         public payable
     {
         //Check of player is added to the system
         require(isPlayer [ msg.sender ] == 1, "Player not added to the system.");
 
         //Check for identity of the user registering
-        (uint8 _v, bytes32 _r, bytes32 _s) = splitSignature(_signature);
-        bytes memory prefix = "\x19Ethereum Signed Message:\n32";
-        bytes32 prefixedHash = keccak256(abi.encodePacked(prefix, _hashMsg));
-        require(ecrecover(prefixedHash, _v, _r, _s) == msg.sender, "The registration identity verification failed.");
+        //(uint8 _v, bytes32 _r, bytes32 _s) = splitSignature(_signature);
+        //bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+        //bytes32 prefixedHash = keccak256(abi.encodePacked(prefix, _hashMsg));
+       // require(ecrecover(prefixedHash, _v, _r, _s) == msg.sender, "The registration identity verification failed.");
 
         //Check for positive commitment
         require(_commitment > 0, "The commitment should be more than 0.");
@@ -330,13 +386,14 @@ contract designVoting{
         require(_commitment >= designes[_designNo].taup, "The commitment should be greater than the penalty.");
         //require(_commitment <= ContractToken.balanceOf(msg.sender), "doesn't have enough tokens");
         //Check if the required number of verifiers are already meet
-        require(regPlayers[_designNo].length < designes[_designNo].balance / designes[_designNo].taur, "No more registrations are accepted.");
+        //require(regPlayers[_designNo].length < designes[_designNo].balance / designes[_designNo].taur, "No more registrations are accepted.");
 
         //Check if already registered
         require(checkPlayers[_designNo][msg.sender] == 0, "Player already registered.");
+        require(regPlayers[_designNo].length < designes[_designNo].balance / designes[_designNo].taur, "No more registrations are accepted.");
 
         //Deposit the commitment into the wallet of the contract owner (token)
-        ContractToken.transfer(address(SaleContract), _commitment);
+        ///ContractToken.transfer(address(SaleContract), _commitment);
 
         //Incrementing the player index and registration
         checkPlayers[_designNo][msg.sender] = 1;
@@ -360,7 +417,7 @@ contract designVoting{
         return regPlayers[_designNo];
     }
 
-    function setReceived(uint256 _designNo, address _playerAddress)
+   /* function setReceived(uint256 _designNo, address _playerAddress)
         public payable
     {
         //Check if the sender is the manager responsible for secure exchange.
@@ -372,13 +429,13 @@ contract designVoting{
 
         //An event is emitted after successful
         emit playerDesignReceived(_designNo, _playerAddress);
-    }
+    }*/
 
-    function commit(uint256 _designNo, bytes32 _cryptoCommitment, uint256 _timestamp)
+    /*function commit(uint256 _designNo, bytes32 _cryptoCommitment, uint256 _timestamp)
         public
     {
         //Check if the player received the design and ready to vote.
-        require(players[msg.sender].received[_designNo] == true, "The player can commit only when manager confirms design exchange.");
+        //require(players[msg.sender].received[_designNo] == true, "The player can commit only when manager confirms design exchange.");
 
         //Check for expiry
         require(_timestamp <= designes[_designNo].timestamp + designes[_designNo].deltaExp, "The player cannot vote after expiry.");
@@ -388,41 +445,124 @@ contract designVoting{
 
         //An event emitted after successful commitment of vote
         emit playerCommitted(_designNo, msg.sender);
-    }
-
-    function reveal(uint256 _designNo, int _vote, bytes32 _nonce, uint256 _timestamp)
+    }*/
+    //In theory even if it is called reveal it should be refered to the voting action
+    function vote(uint256 _designNo, int _vote, /*bytes32 _nonce,*/ uint256 _timestamp)
         public
     {
-        //Check for expiry. Beyond the expiry, the player revealing will have
-        //a picture of the voting trend and thus, can change for profit.
-        require(_timestamp <= designes[_designNo].timestamp + designes[_designNo].deltaExp + designes[_designNo].deltaReveal, "The vote cannot be revealed after the expiry.");
-
+        ///////////////////////////////////////////////////////////////////
+        require(designes[_designNo].phase==votingState.first||designes[_designNo].phase==votingState.second,"No voting aviable for design. ");
+        require(designes[_designNo].status == 0, "Operation failed.");
+        require(_timestamp <= designes[_designNo].timestamp + designes[_designNo].deltaExp + designes[_designNo].deltaReveal, "The time has expired.");
         //Check the commitment
-        require(players[msg.sender].commitments[_designNo] == keccak256(abi.encodePacked(_vote, _nonce)), "The player did not commit to this.");
 
         //Store the vote by the player
-        players[msg.sender].votes[_designNo] = _vote;
-
+        //players[msg.sender].votes[_designNo] = _vote;
+        if(designes[_designNo].phase==votingState.first){
+            players[msg.sender].votes1[_designNo].votingStage1 = _vote;
+            players[msg.sender].votes1[_designNo].reveal_1=revealVote.noReveal;
+        }
+        if(designes[_designNo].phase==votingState.first){
+            players[msg.sender].votes1[_designNo].votingStage2 = _vote;
+            players[msg.sender].votes1[_designNo].reveal_2=revealVote.noReveal;
+        }
         //An event emitted after successful reveal of vote
         emit playerRevealed(_designNo, msg.sender);
     }
+
+    function reveal(uint256 _designNo,uint256 _timestamp)public{
+        
+
+        require(_timestamp > designes[_designNo].timestamp + designes[_designNo].deltaExp , "The result cannot be revealed before the expiry.");
+        if(designes[_designNo].phase==votingState.first){
+            players[msg.sender].votes1[_designNo].reveal_1=revealVote.reveal;
+        }
+
+        if(designes[_designNo].phase==votingState.second){
+            players[msg.sender].votes1[_designNo].reveal_2=revealVote.reveal;
+        }
+        emit playerRevealed(_designNo, msg.sender);
+        
+    }
+
+    /*function startNextPhase(uint256 _designNo,uint256 timestamp)public payable{
+
+        require(msg.sender==designes[_designNo].vendor,"Operation not permitted. ");
+        require(timestamp>designes[_designNo].deltaExp+designes[_designNo].timestamp,"Votation phase still going. ");
+        designes[_designNo].phase=votingState.second;
+        emit phase2Begin(_designNo, msg.sender, timestamp);
+
+
+
+    }*/
+
+    function getRevealedVotes()public{
+
+    }
+
+    function checkPhase(uint256 _designNo)public view returns(votingState){
+
+        return designes[_designNo].phase;
+
+
+    }
+
+
+
+
+    //Need to add a check to be sure that the player that make call 
+    //has commited to that design
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+    //Need to change result into a struct containing two result  
+    function playerCheckResult1(uint256 _designNo,uint256 _timestamp)public view returns(int){ 
+        require(_timestamp>designes[_designNo].timestamp+designes[_designNo].deltaExp + designes[_designNo].deltaReveal,"The time period has not expired yet. ");
+        require(designes[_designNo].status1==1,"The result has not yet been revealed");
+        return designes[_designNo].result;
+    }
+    function playerCheckResult2(uint256 _designNo,uint256 _timestamp)public view returns(int){ 
+        require(_timestamp>designes[_designNo].timestamp+designes[_designNo].deltaExp + designes[_designNo].deltaReveal,"The time period has not expired yet. ");
+        require(designes[_designNo].status2==1 && designes[_designNo].status1==1,"The result has not yet been revealed");
+        return designes[_designNo].result;
+
+
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////
+
     //TODO Chiedere come viene utilizzata la variabile result
     function calculateResult(uint256 _designNo, uint256 _timestamp)
         public
     {
+        //Only if we are in phase 1 or 2 the result can be calculated
+        require(designes[_designNo].phase==votingState.first||designes[_designNo].phase==votingState.second,"Operation failed");
+        require(msg.sender==designes[_designNo].vendor,"Only the announcer can calculate the result");
         //Check the status of the voting. If already completed, then this function is not run.
-        require(designes[_designNo].status == 0, "The voting is already finished and results are declared.");
+        //require(designes[_designNo].status == 0, "The voting is already finished and results are declared.");
+        require(designes[_designNo].status1 == 0 || designes[_designNo].status2==0, "The voting is already finished and results are declared.");
 
         //Check for expiry. The result cannot be calculated before the expiry.
-        require(_timestamp > designes[_designNo].timestamp + designes[_designNo].deltaExp + designes[_designNo].deltaReveal, "The result cannot be revealed before the expiry.");
+        require(_timestamp > designes[_designNo].timestamp + designes[_designNo].deltaExp , "The result cannot be revealed before the expiry.");
 
         //Since solidity do not support floating point arithematic, we will store the value as quotient and remainder.
         //Here we are calculating the numerator and denominator.
         int256 playerNum = 0;
         int256 playerDen = 0;
         for ( uint256 i = 0; i < regPlayers[_designNo].length; i++ ) {
-            playerNum  += ( players[regPlayers[_designNo][i]].votes[_designNo] * int( players[regPlayers[_designNo][i]].weight ) * players[regPlayers[_designNo][i]].reputation );
+            //playerNum  += ( players[regPlayers[_designNo][i]].votes[_designNo] * int( players[regPlayers[_designNo][i]].weight ) * players[regPlayers[_designNo][i]].reputation );
+            //playerDen  += int ( players[regPlayers[_designNo][i]].weight ) * players[regPlayers[_designNo][i]].reputation;
+            if(designes[_designNo].phase==votingState.first)
+                playerNum  += ( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage1 * int( players[regPlayers[_designNo][i]].weight ) * players[regPlayers[_designNo][i]].reputation );
+            
+            if(designes[_designNo].phase==votingState.second)
+                playerNum  += ( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage2 * int( players[regPlayers[_designNo][i]].weight ) * players[regPlayers[_designNo][i]].reputation );
+
             playerDen  += int ( players[regPlayers[_designNo][i]].weight ) * players[regPlayers[_designNo][i]].reputation;
+
+        
+        
         }
 
         //Here we are just calculating the remainder as the value varies from 0 to 1.
@@ -432,33 +572,60 @@ contract designVoting{
         int result = 0;
         if ( finalScoreQuo == 1 || finalScoreRem >= playerDen ) {
             designes[_designNo].result = 1;
+            
+            
         } else if ( finalScoreRem < playerDen ) {
             designes[_designNo].result = -1;
         }
         result = designes[_designNo].result; //PROBABILE SOLUZIONE
 
         for ( uint256 i = 0; i < regPlayers[_designNo].length; i++ ) {
-            if ( players[regPlayers[_designNo][i]].votes[_designNo] > 0 ) {
-                //Set new reputation
-                players[regPlayers[_designNo][i]].reputation += players[regPlayers[_designNo][i]].votes[_designNo] * result;
+            if(designes[_designNo].phase==votingState.first){
+                if ( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage1 > 0 ) {
+                    //Set new reputation
+                    players[regPlayers[_designNo][i]].reputation += players[regPlayers[_designNo][i]].votes1[_designNo].votingStage1 * result;
 
-                //Set new weight (we only use the player weight. The total weight, which is used as normalization factor is eliminated in the final calculation.)
-                players[regPlayers[_designNo][i]].weight += uint ( players[regPlayers[_designNo][i]].votes[_designNo] * result );
-            } else {
-                //Set new reputation
-                players[regPlayers[_designNo][i]].reputation += -1 * result;
+                    //Set new weight (we only use the player weight. The total weight, which is used as normalization factor is eliminated in the final calculation.)
+                    players[regPlayers[_designNo][i]].weight += uint ( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage1 * result );
+                } 
+                else if( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage2 > 0 ){
+                                        //Set new reputation
+                    players[regPlayers[_designNo][i]].reputation += players[regPlayers[_designNo][i]].votes1[_designNo].votingStage2 * result;
 
-                //Set new weight (we only use the player weight. The total weight, which is used as normalization factor is eliminated in the final calculation.)
-                players[regPlayers[_designNo][i]].weight += uint ( -1 * result );
+                    //Set new weight (we only use the player weight. The total weight, which is used as normalization factor is eliminated in the final calculation.)
+                    players[regPlayers[_designNo][i]].weight += uint ( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage2 * result );
+                }
+                
+                
+                else {
+                    //Set new reputation
+                    players[regPlayers[_designNo][i]].reputation += -1 * result;
+
+                    //Set new weight (we only use the player weight. The total weight, which is used as normalization factor is eliminated in the final calculation.)
+                    players[regPlayers[_designNo][i]].weight += uint ( -1 * result );
+                }
             }
         }
 
         for ( uint256 i = 0; i < regPlayers[_designNo].length; i++ ) {
-            if ( players[regPlayers[_designNo][i]].votes[_designNo] * result == 1) { // rimuovere * result
-                players[regPlayers[_designNo][i]].balance += designes[_designNo].taur;
-                //ContractToken.transferFrom(address(SaleContract), regPlayers[_designNo][i], designes[_designNo].taur);
-                designes[_designNo].balance -= designes[_designNo].taur;
-            } else {
+            if(designes[_designNo].phase==votingState.first){
+                if ( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage1 * result == 1) { // rimuovere * result
+                    players[regPlayers[_designNo][i]].balance += designes[_designNo].taur;
+                    //ContractToken.transferFrom(address(SaleContract), regPlayers[_designNo][i], designes[_designNo].taur);
+                    designes[_designNo].balance -= designes[_designNo].taur;
+                } 
+            }
+
+            else if(designes[_designNo].phase==votingState.second){
+                if ( players[regPlayers[_designNo][i]].votes1[_designNo].votingStage2 * result == 1) { // rimuovere * result
+                    players[regPlayers[_designNo][i]].balance += designes[_designNo].taur;
+                    //ContractToken.transferFrom(address(SaleContract), regPlayers[_designNo][i], designes[_designNo].taur);
+                    designes[_designNo].balance -= designes[_designNo].taur;
+
+                }
+            }
+
+            else {
                 players[regPlayers[_designNo][i]].balance -= designes[_designNo].taup;
                 //ContractToken.transferFrom(regPlayers[_designNo][i], address(SaleContract), designes[_designNo].taup);
                 designes[_designNo].balance += designes[_designNo].taup;
@@ -467,7 +634,18 @@ contract designVoting{
         }
 
         //Set the status to finished
-        designes[_designNo].status = 1;
+        //designes[_designNo].status = 1;
+        if(designes[_designNo].phase==votingState.first)
+            designes[_designNo].status1 = 1;
+        if(designes[_designNo].phase==votingState.second)
+            designes[_designNo].status2=1;
+        //Setting the new phase start
+        if(designes[_designNo].result==1 && designes[_designNo].phase==votingState.first){
+            designes[_designNo].phase=votingState.second;
+            designes[_designNo].timestamp=_timestamp;
+
+        }
+
 
         //Emit the notification for the result
         emit votingResult(result);
@@ -561,7 +739,7 @@ contract designVoting{
             require(claimableTokens > 0, "No claimable tokens");
 
             //_claimedTokens[players[i]] += claimableTokens; Should be implemented a function that returns the claimed tokens
-            ContractToken.transferFrom(address(SaleContract),msg.sender, claimableTokens);
+            //ContractToken.transferFrom(address(SaleContract),msg.sender, claimableTokens);
 
             //An event emitted after successful claim of tokens
             emit TokensClaimed(msg.sender, claimableTokens);
@@ -571,17 +749,13 @@ contract designVoting{
 
     /*
     function addProof( uint256 _designNo, address _printerAddress, bytes32 _fileHash ) public {
-
         //Check for existing player
         require( isPlayer [ msg.sender ] == 1, "Only registered player can add proof of printer.");
-
         //Check for existing printer
         require( isPrinter [ _printerAddress ] == 1, "Only proof from a registered printer can be added.");
-
         //Add the proof
         printingProof [ _designNo ][ msg.sender ][ _printerAddress ] = _fileHash;
         isProof [ _designNo ][ msg.sender ][ _printerAddress ] = true;
-
         //Emit event
         emit proofAdded( _designNo, msg.sender, _printerAddress);
     }
@@ -619,4 +793,4 @@ contract designVoting{
     function isProofPresent( uint256 _designNo, address _userAddress, address _printerAddress ) public view returns (bool) {
         return isProof [ _designNo ][ _userAddress ][ _printerAddress ];
     }
-}
+} 
