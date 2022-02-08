@@ -156,11 +156,7 @@ contract VotingSystem {
     event playerVotedPhase2(uint256 design,address player);
 ///////////////////////////////////////////////////////////
 
-function prova(bytes32 prova1)pure public returns(bytes32) {
-    bytes32 gianni;
-    gianni = prova1;
-    return gianni;
-}
+
 
 
     //The commitment is send via the value field in the remix. If the sent value matches the commitment parameter,
