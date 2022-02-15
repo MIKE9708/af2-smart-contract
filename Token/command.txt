@@ -1,0 +1,18 @@
+{
+  from: "0xA971407221509eAE2b06b4c598744b78DB80B617",
+  to: "0xFF6270844DaaA7fdA08acF6D90185A3c593945BE",
+  gasLimit: "21000",
+  gasPrice: "200",
+  nonce: "0",
+  value: "10000000000",
+}
+
+
+
+
+
+TestToken.deployed().then(function(i) {tokenInstance = i;})
+AntoTokenSale.deployed().then(function(i) {tokenSale = i;})
+
+designVoting.deployed().then(function(i) {design = i;})
+ tokenInstance.transfer(SaleInstance.address, 750000, {from: accounts[0]})
