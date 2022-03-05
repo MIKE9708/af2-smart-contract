@@ -43,13 +43,14 @@ class blockchain{
      }
 
      async announce(user){
-        this.contract.methods.announce(this.web3.utils.fromAscii("test1"),Date.now(),this.web3.utils.toWei('3'),1,1).send({from: user, gas: 3000000, value: this.web3.utils.toWei('3'),gasPrice:0}).then(res =>{ 
-            if(res)
-                console.log('Announcement made-----------------------', res)});
-        
+        this.contract.methods.announce(this.web3.utils.fromAscii("test1"),Date.now(),this.web3.utils.toWei('3'),1,1).send({from: user, gas: 3000000, value: this.web3.utils.toWei('3'),gasPrice:0});
+        await this.sleep(500);
         await this.contract.methods.getNumDesignes().call().then((designe)=>{
-                    console.log("NUmber of desgn:-----------------------"+designe)
+                    console.log("NUmber of desgn:---------------------------------------------------------"+designe)
                 });
+        await this.contract.methods.checkPhase(0).call().then((phase)=>{
+            console.log("Current Phase:-----------------------------------------------------------"+phase)
+        });
 
      }
 
@@ -63,41 +64,53 @@ class blockchain{
         for(let user of users)
             this.contract.methods.vote(index,vote,Date.now(),this.web3.utils.fromWei('1000000000000000000')).send({from: user, gas: 3000000, value: this.web3.utils.fromWei('1000000000000000000'),gasPrice:0}).then((val)=>{
                 if(val)
-                    console.log("The votation was successfull--------")
+                    console.log("-----------------------The votation was successfull-----------------------")
             });
         
     }
 
-    async checkResult(index){
-        let res=this.contract.methods.checkResult(index,Date.now()).call().then((resolu)=>{;
-        if(resolu==1)
-            console.log("Passed");
-        else console.log("Failed");});
+    async checkResult1(index){
+
+        this.contract.methods.playerCheckResult1(index,Date.now()).call().then((resolu)=>{;
+        if(resolu)
+            console.log("-----------------------Passed---------------------------------------------");
+        else 
+            console.log("-----------------------Failed---------------------------------------------");
+    });
     }
 
-    async calculateResult(announcer,index){
-        this.contract.methods.calculateResult(index,Date.now()).send({from:announcer,gas:3000000});
+    async checkResult2(index){
+        this.contract.methods.playerCheckResult2(index,Date.now()).call().then((resolu)=>{;
+        if(resolu==1)
+            console.log("-----------------------Passed---------------------------------------------");
+        else console.log("-----------------------Failed---------------------------------------------");});
+    }
 
+    async calculateResult(announcer,index,phase){
+        this.contract.methods.calculateResult(index,Date.now()).send({from:announcer,gas:3000000});
+        /*if(phase==1)
+            await this.checkResult1(index);
+        else if(phase==2)
+            await this.checkResult2(index);*/
 
     }
 
     async checkPhase(index){
-        let res=this.contract.methods.checkPhase(index).call().then((val)=>{
-            console.log("The current phase is -----------------"+val)
-        });
-        return res;        
+        this.contract.methods.checkPhase(index).call().then((val)=>{
+            console.log("-----------------------The current phase is-----------------------"+val)
+        });       
     }
 
      async getDesigne(index){
-        let res=this.contract.methods.getDesigne(index).call().then((designe)=>{
-            console.log("Design info:----------"+designe)
+        this.contract.methods.getDesigne(index).call().then((designe)=>{
+            console.log("-----------------------Design info-----------------------"+designe)
         });
-        return res;
+    
      }
 
      async getNumDesignes(){
          this.contract.methods.getNumDesignes().call().then((res)=>{
-             console.log("Number of designes:------------ "+res)});
+             console.log("-----------------------Number of designes-----------------------"+res)});
          
      }
 
@@ -111,10 +124,8 @@ class blockchain{
         let res=this.contract.methods.getNumPlayers().call();
         return res;
     }
-    async calculateResult(){
-        this.contract.methods.calculateResultPhase1.send({from:user,gas:3000000}).then((val)=>{
-            console.log(val);
-        });
+    async setReputaton(address,val){
+        this.contract.methods.setPlayerReputation(address,val).send({from:address,gas:3000000});
     }
     async isPlayer(){
         let res=this.contract.methods.getPlayer().call().then((isplayer)=>{
@@ -122,7 +133,11 @@ class blockchain{
         })
         return res
     }
-
+    async getPlayerWeight(address){
+        this.contract.methods.getPlayerWeight(address).call().then((weight)=>{
+            console.log("The weight is :"+weight);
+        })
+    }
     getAccounts(){
 
         let val= this.web3.eth.getAccounts();
@@ -133,6 +148,11 @@ class blockchain{
         console.log(ac);
     }
 
+    async time(){
+        this.contract.methods.timestampGet(0).call().then((val)=>{
+            console.log(val);
+        })
+    }
     
 }
 
@@ -144,10 +164,22 @@ const main = async function(){
     const start=new blockchain()
     let accounts=await start.getAccounts();
     let votingAccounts=[accounts[3],accounts[4],accounts[5]];
-    console.log("Contract Address------------"+start.ContractAddress)
-    await start.announce(accounts[1]);
-    await start.voting(votingAccounts,0,1);
-    await start.calculateResult(accounts[1],0);
+    let designN=0;
+    let vote=1;
+    let phase=1;
+    console.log("Contract Address----------------"+start.ContractAddress)
+    await start.announce(accounts[3]);
+    await start.voting(votingAccounts,designN,vote);
+    await start.sleep(10000);
+    await start.calculateResult(accounts[3],designN,phase);
+    await start.checkResult1(designN);
+    await start.voting(votingAccounts,designN,vote);
+    await start.sleep(10000);
+    await start.calculateResult(accounts[3],designN,phase=2);
+    await start.sleep(1000);
+    await start.checkResult2(designN);
+    
+
 
     
    

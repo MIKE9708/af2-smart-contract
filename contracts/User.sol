@@ -84,20 +84,20 @@ contract User{
         airPlayers[msg.sender].position = position;
 
         //Default value
-        airPlayers[msg.sender].reputation = 0;  
-        airPlayers[msg.sender].weight = 0;
+        airPlayers[msg.sender].reputation = 3;  
+        airPlayers[msg.sender].weight = 1;
         
         //Event for successful registration
         emit newPlayerAddition(msg.sender);
     }
 
-    function setPlayerReputation(address playerAddress ,int256 reputation)public payable{
-        airPlayers[playerAddress].reputation+=reputation;
+    function setPlayerReputation(address playerAddress ,int256 reputation) public payable {
+        airPlayers[playerAddress].reputation+=(reputation);
 
     }
 
-    function setPlayerWeight(address playerAddress ,uint256 weight)public payable{
-        airPlayers[playerAddress].weight+=weight;
+    function setPlayerWeight(address playerAddress ,uint256 weight)public payable  {
+        airPlayers[playerAddress].weight+=(weight);
 
     }
 
